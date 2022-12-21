@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply m-0 p-0 box-border;
+  }
+
+  html {
+    @apply font-Bebas;
+  }
+
+  button {
+    @apply cursor-pointer;
+  }
+}
+
+.App {
+  grid-template: 'header' auto
+  'content' 1fr 
+  'footer' auto
+  / 1fr;
+}
+
+#Header {
+  grid-area: header;
+}
+
+#Content {
+  grid-area: content;
+  z-index: 10;
+}
+
+#Footer {
+  grid-area: footer;
+}
