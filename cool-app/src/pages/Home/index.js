@@ -1,14 +1,23 @@
 import React, { useState, useContext, useEffect, useMemo, useRef } from "react";
-import Select from "react-select";
 import classNames from "classnames";
 import Item from "../../components/Item";
 import Search from "../../components/Search";
-import { initialDetails, dataList, homeList, testList } from "../../constants/initialDetails";
-// import useFetch from "use-http";
+import axios from "axios";
+import {
+  initialDetails,
+  dataList,
+  homeList,
+  testList,
+} from "../../constants/initialDetails";
 import _ from "lodash";
+import AOS from "aos";
+import "aos/dist/aos.css";
+const url = "https://swapi.dev/api/people/";
 
 const Home = () => {
-  //   let [data, setData] = useState(["all"]);
+  const [people, setPeople] = useState([]);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   let [data, setData] = useState([]);
   const [currentItem, setCurrentItem] = useState();
   let [data2, setData2] = useState([]);
@@ -22,6 +31,27 @@ const Home = () => {
   const changeItem2 = (e) => {
     setCurrentItem2(e.target.value);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const resp = await axios.post(url, { name, email });  
+      console.log(resp.data)
+    } catch (e) {
+      console.log(e.response)
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await axios.get(url);
+      // convert the data to json
+      // const json = await response.json();
+      setPeople(data.data?.results);
+    };
+
+    fetchData().catch(console.error);
+  }, []);
 
   useEffect(() => {
     data2 = dataList.filter((dataList) => {
@@ -42,6 +72,27 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    AOS.init({
+      duration: 2000,
+    });
+
+    // axios
+    //   .get("https://swapi.dev/api/people/")
+    //   .then(function (response) {
+    //     // 处理成功情况
+
+    //     setPeople(response.data?.results);
+    //     console.log(people);
+    //     // debugger
+    //   })
+    //   .catch(function (error) {
+    //     // 处理错误情况
+    //     console.log(error);
+    //   })
+    //   .then(function () {
+    //     // 总是会执行
+    //   });
+
     // const el2 = ref.current.id;
     // console.log(el2);
     // document.querySelectorAll('#CollectionFiltersForm .sf__accordion-content input[type=checkbox]').forEach((el) => {
@@ -137,20 +188,59 @@ const Home = () => {
 
   var filteredList = useMemo(getFilteredList, [currentItem, data]);
 
-  // const SearchInput = useMemo(
-  //   () => (
-  //     <input onChange={changeText} value={searchText} placeholder="search..." />
-  //   ),
-  //   [searchText]
-  // );
-
   return (
-    <div id="Content" className="grid-auto relative row-start-2 overflow-auto">
-      <div className="grid grid-flow-row grid-cols-2">
+    <div id="Content">
+      <div className="h-screen">
+        <form
+          className="form grid grid-flow-row grid-cols-1 place-content-center h-full"
+          onSubmit={handleSubmit}
+        >
+          <h1 className="text-4xl text-center mb-10">Welcome Home</h1>
+          <div className="form-row mb-4 flex justify-center">
+            <label className="form-label pr-4">name</label>
+            <input
+              className="form-input"
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.targets.value)}
+            />
+          </div>
+          <div className="form-row mb-4 flex justify-center">
+            <label className="form-label pr-3.5">email</label>
+            <input
+              className="form-input"
+              type="text"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.targets.value)}
+            />
+          </div>
+          <button className="" type="submit">
+            Login
+          </button>
+        </form>
+      </div>
+      {people.length ? (
+        <>
+          {people.map((item) => (
+            <p>{item.name}</p>
+          ))}
+        </>
+      ) : (
+        <div>Loading...</div>
+      )}
+      <div
+        className="grid grid-flow-row grid-cols-2 h-screen"
+        data-aos="fade-right"
+      >
         {testJSX}
         {homeJSX}
       </div>
-      <div className="grid grid-flow-row grid-cols-2 bg-black">
+      <div
+        className="grid grid-flow-row grid-cols-2 bg-black h-screen"
+        data-aos="fade-left"
+      >
         {filterJSX}
         {data2.map(({ id, name, city, label, isAvailable }) => {
           return (
@@ -163,13 +253,19 @@ const Home = () => {
           );
         })}
       </div>
-      <div className="grid grid-flow-row grid-cols-2 bg-white">
+      <div
+        className="grid grid-flow-row grid-cols-2 bg-white h-screen"
+        data-aos="fade-right"
+      >
         {filterStringJSX}
         {filteredList.map((element, index) => (
           <Item {...element} key={index} />
         ))}
       </div>
-      <div className="grid grid-flow-row grid-cols-2">
+      <div
+        className="grid grid-flow-row grid-cols-2 h-screen"
+        data-aos="fade-right"
+      >
         <Search details={initialDetails} />
       </div>
     </div>

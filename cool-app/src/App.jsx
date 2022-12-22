@@ -4,7 +4,7 @@ import Router from "./routes/Routes";
 function App() {
 
   return (
-    <div className="App grid overflow-x-hidden h-screen min-h-screen bg-slate-500">
+    <div className="App grid min-h-screen bg-slate-500">
       <Router />
     </div>
   );
