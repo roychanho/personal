@@ -17,10 +17,11 @@
 }
 
 .App {
-  grid-template: 'header' auto
-  'content' 1fr 
-  'footer' auto
-  / 1fr;
+  grid-template:
+    "header" auto
+    "content" 1fr
+    "footer" auto
+    / 1fr;
 }
 
 #Header {
@@ -34,4 +35,20 @@
 
 #Footer {
   grid-area: footer;
+}
+
+.pagination {
+  @apply flex justify-center my-5;
+}
+
+.page-link {
+  @apply p-2 border border-gray-200 shadow rounded-sm bg-white;
+}
+
+.active a{
+  @apply bg-blue-500 text-white;
+}
+
+.disabled a {
+  @apply text-gray-500 bg-gray-100 cursor-default;
 }

@@ -8,22 +8,26 @@ import {
   dataList,
   homeList,
   testList,
+  pageItems,
 } from "../../constants/initialDetails";
+import Paginate from "../../components/Paginate";
 import _ from "lodash";
 import AOS from "aos";
 import "aos/dist/aos.css";
 const url = "https://swapi.dev/api/people/";
+const jsonUrl = "https://jsonplaceholder.typicode.com/posts/1/comments";
+const url2 = "https://jsonplaceholder.typicode.com/posts";
 
 const Home = () => {
+  const [content, setContent] = useState([]);
   const [people, setPeople] = useState([]);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
   let [data, setData] = useState([]);
   const [currentItem, setCurrentItem] = useState();
   let [data2, setData2] = useState([]);
   const [currentItem2, setCurrentItem2] = useState();
   const ref = useRef(null);
-
   const changeItem = (e) => {
     setCurrentItem(e.target.value);
   };
@@ -35,19 +39,31 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const resp = await axios.post(url, { name, email });  
-      console.log(resp.data)
+      const resp = await axios.post(url2, { title, body });
+      console.log(resp.data);
     } catch (e) {
-      console.log(e.response)
+      console.log(e.response);
     }
   };
 
   useEffect(() => {
+    fetch(jsonUrl).then((response) =>
+      response.json().then((data) => {
+        console.log(data)
+        setContent(data);
+      })
+    );
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       const data = await axios.get(url);
+      // const data = await axios.get(url2);
       // convert the data to json
       // const json = await response.json();
+      console.log(data)
       setPeople(data.data?.results);
+      // setPeople(data.data);
     };
 
     fetchData().catch(console.error);
@@ -201,9 +217,9 @@ const Home = () => {
             <input
               className="form-input"
               type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.targets.value)}
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
           <div className="form-row mb-4 flex justify-center">
@@ -211,9 +227,9 @@ const Home = () => {
             <input
               className="form-input"
               type="text"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.targets.value)}
+              id="body"
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
             />
           </div>
           <button className="" type="submit">
@@ -267,6 +283,9 @@ const Home = () => {
         data-aos="fade-right"
       >
         <Search details={initialDetails} />
+      </div>
+      <div>
+        <Paginate itemsPerPage={4} items={people} />
       </div>
     </div>
   );
