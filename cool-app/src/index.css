@@ -52,3 +52,14 @@
 .disabled a {
   @apply text-gray-500 bg-gray-100 cursor-default;
 }
+
+button.toggle {
+  background: #b6e2a1;
+}
+button.delete {
+  background: #ff8fb1;
+}
+
+.todo {
+  margin: 15px;
+}

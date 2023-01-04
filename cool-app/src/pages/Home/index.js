@@ -1,4 +1,11 @@
-import React, { useState, useContext, useEffect, useMemo, useRef } from "react";
+import React, {
+  useState,
+  useContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import classNames from "classnames";
 import Item from "../../components/Item";
 import Search from "../../components/Search";
@@ -14,11 +21,23 @@ import Paginate from "../../components/Paginate";
 import _ from "lodash";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Todo from "../../components/Todo";
+import TodoForm from "../../components/TodoForm";
+import { TodoProvider } from "../../constants/TodoContext";
+import ReactFormHook from "../../components/ReactFormHook";
+import Filter from "../../components/Filter";
+
 const url = "https://swapi.dev/api/people/";
 const jsonUrl = "https://jsonplaceholder.typicode.com/posts/1/comments";
 const url2 = "https://jsonplaceholder.typicode.com/posts";
 
 const Home = () => {
+  const [user, setUser] = useState({
+    name: "Roy",
+    age: "25",
+    male: "male",
+    getUserData: () => {},
+  });
   const [content, setContent] = useState([]);
   const [people, setPeople] = useState([]);
   const [title, setTitle] = useState("");
@@ -28,6 +47,18 @@ const Home = () => {
   let [data2, setData2] = useState([]);
   const [currentItem2, setCurrentItem2] = useState();
   const ref = useRef(null);
+
+  const changeUsername = () => {
+    setUser({
+      ...user,
+      name: "newName",
+    });
+  };
+
+  const food = {
+    getFoodData: () => {},
+  };
+
   const changeItem = (e) => {
     setCurrentItem(e.target.value);
   };
@@ -40,7 +71,6 @@ const Home = () => {
     e.preventDefault();
     try {
       const resp = await axios.post(url2, { title, body });
-      console.log(resp.data);
     } catch (e) {
       console.log(e.response);
     }
@@ -49,7 +79,6 @@ const Home = () => {
   useEffect(() => {
     fetch(jsonUrl).then((response) =>
       response.json().then((data) => {
-        console.log(data)
         setContent(data);
       })
     );
@@ -61,7 +90,6 @@ const Home = () => {
       // const data = await axios.get(url2);
       // convert the data to json
       // const json = await response.json();
-      console.log(data)
       setPeople(data.data?.results);
       // setPeople(data.data);
     };
@@ -175,7 +203,7 @@ const Home = () => {
 
   const homeJSX = _.map(homeList.badges, (item, index) => {
     const { id, name } = item;
-    return <div key={id + 1}>{id}</div>;
+    return <div key={id}>{id}</div>;
   });
 
   const filterJSX = useMemo(() => {
@@ -237,9 +265,17 @@ const Home = () => {
           </button>
         </form>
       </div>
+      <ReactFormHook/>
+      <TodoProvider>
+        <div className="mb-10">
+          <TodoForm />
+          <Todo />
+        </div>
+      </TodoProvider>
+      <Filter/>
       {people.length ? (
         <>
-          {people.map((item) => (
+          {people?.map((item) => (
             <p>{item.name}</p>
           ))}
         </>
@@ -286,6 +322,12 @@ const Home = () => {
       </div>
       <div>
         <Paginate itemsPerPage={4} items={people} />
+      </div>
+      <div>
+        <button onClick={changeUsername}>Click</button>
+        <p>name:{user.name}</p>
+        <p>age:{user.age}</p>
+        <p>male:{user.male}</p>
       </div>
     </div>
   );
