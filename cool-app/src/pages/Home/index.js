@@ -26,6 +26,7 @@ import TodoForm from "../../components/TodoForm";
 import { TodoProvider } from "../../constants/TodoContext";
 import ReactFormHook from "../../components/ReactFormHook";
 import Filter from "../../components/Filter";
+import Observer from "../../components/Observer";
 
 const url = "https://swapi.dev/api/people/";
 const jsonUrl = "https://jsonplaceholder.typicode.com/posts/1/comments";
@@ -265,14 +266,14 @@ const Home = () => {
           </button>
         </form>
       </div>
-      <ReactFormHook/>
+      <ReactFormHook />
       <TodoProvider>
         <div className="mb-10">
           <TodoForm />
           <Todo />
         </div>
       </TodoProvider>
-      <Filter/>
+      <Filter />
       {people.length ? (
         <>
           {people?.map((item) => (
@@ -329,6 +330,7 @@ const Home = () => {
         <p>age:{user.age}</p>
         <p>male:{user.male}</p>
       </div>
+      <Observer/>
     </div>
   );
 };

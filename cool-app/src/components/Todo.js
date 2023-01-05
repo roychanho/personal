@@ -2,7 +2,16 @@ import React, { useContext } from "react";
 import { TodoContext } from "../constants/TodoContext";
 
 const Todo = () => {
-  const { todos, toggleTodo, deleteTodo } = useContext(TodoContext);
+  const { todos, toggleTodo, deleteTodo, setTodo, setEditMode } =
+    useContext(TodoContext);
+
+  const enableEditMode = (id, todoContent) => {
+    setEditMode(true);
+    setTodo({
+      id,
+      todoContent,
+    });
+  };
 
   return (
     <>
@@ -15,6 +24,12 @@ const Todo = () => {
           </span>
           <button className="px-10 toggle" onClick={() => toggleTodo(todo.id)}>
             {todo?.complete ? "Cancel" : "Complete"}
+          </button>
+          <button
+            className="edit"
+            onClick={() => enableEditMode(todo.id, todo.todoContent)}
+          >
+            Edit
           </button>
           <button className="delete" onClick={() => deleteTodo(todo.id)}>
             Delete

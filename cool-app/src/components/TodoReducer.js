@@ -6,6 +6,7 @@ export const ACTIONS = {
   ADD_TODO: "ADD_TODO",
   TOGGLE_TODO: "TOGGLE_TODO",
   DELETE_TODO: "DELETE_TODO",
+  EDIT_TODO: "EDIT_TODO",
 };
 
 const TodoReducer = (state, action) => {
@@ -23,6 +24,11 @@ const TodoReducer = (state, action) => {
         todos: payload.todo,
       };
     case ACTIONS.DELETE_TODO:
+      return {
+        ...state,
+        todos: payload.todo,
+      };
+    case ACTIONS.EDIT_TODO:
       return {
         ...state,
         todos: payload.todo,
