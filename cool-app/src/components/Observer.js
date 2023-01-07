@@ -46,24 +46,24 @@ const Observer = () => {
   // };
 
   return (
-    <div class="card-container">
-      <div class="card">First card</div>
-      <div class="card">Card</div>
-      <div class="card">Card</div>
-      <div class="card">Card</div>
-      <div class="card">Card</div>
-      <div class="card">Card</div>
-      <div class="card">Card</div>
-      <div class="card">Card</div>
-      <div class="card">Card</div>
-      <div class="card">Card</div>
-      <div class="card">Card</div>
-      <div class="card">Card</div>
-      <div class="card">Card</div>
-      <div class="card">Card</div>
-      <div class="card">Card</div>
-      <div class="card">Card</div>
-      <div class="card">Last card</div>
+    <div className="card-container">
+      <div className="card">First card</div>
+      <div className="card">Card</div>
+      <div className="card">Card</div>
+      <div className="card">Card</div>
+      <div className="card">Card</div>
+      <div className="card">Card</div>
+      <div className="card">Card</div>
+      <div className="card">Card</div>
+      <div className="card">Card</div>
+      <div className="card">Card</div>
+      <div className="card">Card</div>
+      <div className="card">Card</div>
+      <div className="card">Card</div>
+      <div className="card">Card</div>
+      <div className="card">Card</div>
+      <div className="card">Card</div>
+      <div className="card">Last card</div>
     </div>
   );
 };

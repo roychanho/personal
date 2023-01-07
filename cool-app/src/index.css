@@ -86,3 +86,7 @@ button.delete {
   transform: translateX(0);
   opacity: 1;
 }
+
+.active {
+  @apply underline;
+}

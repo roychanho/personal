@@ -1,5 +1,5 @@
 import React, { useState, useContext, useCallback } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, NavLink, Outlet } from "react-router-dom";
 import classNames from "classnames";
 import _ from "lodash";
 
@@ -11,15 +11,30 @@ const Header = () => {
   //   ));
 
   return (
-    <nav>
-      <span>
-        <Link to="/">Home</Link>
-      </span>
-      |
-      <span>
-        <Link to="/products">Products</Link>
-      </span>
-    </nav>
+    <>
+      <nav>
+        <span>
+          {/* <NavLink
+          to="/"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Home
+        </NavLink> */}
+          <Link to="/">Home</Link>
+        </span>
+        |
+        <span>
+          {/* <NavLink
+          to="/products"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Products
+        </NavLink> */}
+          <Link to="/products">Products</Link>
+        </span>
+      </nav>
+      <Outlet />
+    </>
   );
 };
 
